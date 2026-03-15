@@ -1,0 +1,52 @@
+namespace DanmakuFrostMasterXx
+{
+    enum DanmakuFontSize
+    {
+        Smallest = 1,
+        Smaller = 2,
+        Normal = 3,
+        Larger = 4,
+        Largest = 5,
+    };
+
+    [default_interface]
+    runtimeclass DanmakuFrostMaster
+    {
+        DanmakuFrostMaster();
+        void Initialize(Object canvas);
+
+        Boolean DebugMode;
+
+        void SetAutoControlDensity(Boolean value);
+        void SetRollingDensity(Int32 value);
+        void SetRollingAreaRatio(Int32 value);
+        void SetRollingSpeed(Int32 value);
+        void SetOpacity(Double value);
+        void SetIsTextBold(Boolean value);
+        void SetDanmakuFontSizeOffset(DanmakuFontSize value);
+        void SetSubtitleFontSize(DanmakuFontSize value);
+        void SetFontSizeOffset(Int32 value);
+        void SetFontFamilyName(String value);
+        void SetBorderColor(Windows.UI.Color borderColor);
+        void SetNoOverlapSubtitle(Boolean value);
+
+        void UpdateTime(UInt32 currentMs);
+        void Pause();
+        void Resume();
+        void Stop();
+        void Restart();
+        void Seek(UInt32 targetMs);
+
+        void SetRenderState(Boolean renderDanmaku, Boolean renderSubtitle);
+        void SetLayerRenderState(UInt32 layerId, Boolean render);
+        void SetSubtitleLayer(UInt32 layerId);
+
+        void SetDanmakuListFromXml(String xmlStr);
+        void SetSubtitleListFromJson(String jsonStr);
+
+        void Clear();
+        void ClearLayer(UInt32 layerId);
+
+        void Close();
+    };
+}

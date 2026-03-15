@@ -32,6 +32,7 @@ namespace DanmakuFrostMasterDemo
                 _danmakuController.SetLayerRenderState(DanmakuDefaultLayerDef.RollingLayerId, false);
                 _danmakuController.SetLayerRenderState(DanmakuDefaultLayerDef.TopLayerId, false);
                 _danmakuController.SetLayerRenderState(DanmakuDefaultLayerDef.BottomLayerId, false);
+                _danmakuController.SetLayerRenderState(DanmakuDefaultLayerDef.ReverseRollingLayerId, false);
 
                 _danmakuController.SetAutoControlDensity(false);
                 _danmakuController.SetRollingAreaRatio(10);
@@ -125,6 +126,8 @@ namespace DanmakuFrostMasterDemo
             _danmakuController.SetLayerRenderState(DanmakuDefaultLayerDef.RollingLayerId, isChecked);
             _danmakuController.SetLayerRenderState(DanmakuDefaultLayerDef.TopLayerId, isChecked);
             _danmakuController.SetLayerRenderState(DanmakuDefaultLayerDef.BottomLayerId, isChecked);
+            _danmakuController.SetLayerRenderState(DanmakuDefaultLayerDef.ReverseRollingLayerId, isChecked);
+
         }
 
         private void _cbDebugMode_Checked(object sender, RoutedEventArgs args)

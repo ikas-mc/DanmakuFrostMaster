@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using Windows.UI;
 
@@ -151,19 +151,20 @@ namespace Atelier39
             List<DanmakuItem> list = new List<DanmakuItem>();
             if (!string.IsNullOrWhiteSpace(jsonArrayStr))
             {
-                JObject jObject = JObject.Parse(jsonArrayStr);
-                JToken bodyArray = jObject["body"];
+                
+                var jObject = JsonValue.Parse(jsonArrayStr);
+                var bodyArray = jObject["body"].AsArray();
                 if (bodyArray != null)
                 {
-                    foreach (JToken jToken in bodyArray)
+                    foreach (var jToken in bodyArray)
                     {
                         try
                         {
-                            double fromMs = jToken["from"].ToObject<double>() * 1000;
-                            double toMs = jToken["to"].ToObject<double>() * 1000;
+                            double fromMs = jToken["from"].GetValue<double>() * 1000;
+                            double toMs = jToken["to"].GetValue<double>() * 1000;
                             if (toMs > fromMs)
                             {
-                                string content = jToken["content"].ToString();
+                                string content = jToken["content"].GetValue<String>();
                                 if (!string.IsNullOrWhiteSpace(content))
                                 {
                                     DanmakuItem item = new DanmakuItem
@@ -297,7 +298,7 @@ namespace Atelier39
                     string[] valueArray;
                     try
                     {
-                        JArray jArray = JArray.Parse(content);
+                        var jArray = JsonArray.Parse(content).AsArray();
                         valueArray = new string[jArray.Count];
                         for (int i = 0; i < valueArray.Length; i++)
                         {

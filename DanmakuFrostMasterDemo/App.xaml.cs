@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -7,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -70,6 +72,7 @@ namespace DanmakuFrostMasterDemo
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+                StartGcWatch();
             }
         }
 
@@ -95,6 +98,20 @@ namespace DanmakuFrostMasterDemo
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private readonly DispatcherTimer _gcTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+
+        private void StartGcWatch()
+        {
+            _gcTimer.Tick += (_, __) =>
+            {
+                var gen0 = GC.CollectionCount(0);
+                var gen1 = GC.CollectionCount(1);
+                var gen2 = GC.CollectionCount(2);
+                Debug.WriteLine($"{DateTimeOffset.Now} GC counts: gen0={gen0}, gen1={gen1}, gen2={gen2}, mem={MemoryManager.AppMemoryUsage / (1024 * 1024)} MB");
+            };
+            _gcTimer.Start();
         }
     }
 }
